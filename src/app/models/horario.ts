@@ -6,6 +6,7 @@ export class Horario {
     horaSalida: string = '';
     modalidad: string = '';
     aula: NuevaAula  = new NuevaAula();
+    precio: number = 0;
 }
 
 export class CreateHorario {
