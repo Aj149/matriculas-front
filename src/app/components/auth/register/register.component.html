@@ -1,0 +1,48 @@
+<app-navbar></app-navbar>
+@if (isAdmin) {
+<div class="d-flex justify-content-center">
+  <div class="col-lg-4 col-md-8 col-sm-7 col-11 shadowss rounded-3 login border border-dark mt-4">
+    <div class="container bg-info rounded-top-3 p-2">
+      <div class="row">
+        <div class="col-6 text-light text-center">
+          <h4 class="mt-lg-4 mt-md-4">REGISTRO</h4>
+          <h6>Registrate al sistema IEC</h6>
+        </div>
+        <div class="col-6">
+          <img width="100%" class="rounded-4"
+            src="https://firebasestorage.googleapis.com/v0/b/parte-2-b252a.appspot.com/o/Globales%2Flogo%20negroL-ACT%20JPG.jpg?alt=media&token=2e20a40a-9699-4629-b870-2564d6465ff0">
+        </div>
+      </div>
+    </div>
+    <form class="p-3" (ngSubmit)="onRegister()" novalidate #f="ngForm">
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">NOMBRES COMPLETOS</label>
+        <input type="text" class="form-control" name="name" [(ngModel)]="usuario.nombres_usuario" id="name" required />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">N° DE CÉDULA</label>
+        <input type="text" class="form-control" [(ngModel)]="usuario.cedula" name="cedula" id="cedula" required
+          oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 10)" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">CLAVE</label>
+        <div class="input-group">
+          <input [type]="hide ? 'password' : 'text'" type="password" class="form-control" [(ngModel)]="usuario.password"
+            name="clave" id="clave" required />
+          <button class="btn btn-outline-secondary" type="button" (click)="hide = !hide">
+            <i class="fa" [ngClass]="{'fa-eye-slash': hide, 'fa-eye': !hide}"></i>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-outline-dark col-12 rounded-pill" [disabled]="!f.valid">
+        Registrarse
+      </button>
+    </form>
+    <div class="p-3">
+      <button routerLink="/dashboard/usuarios" class="btn btn-outline-danger col-12 rounded-pill">
+        Volver
+      </button>
+    </div>
+  </div>
+</div>
+}
