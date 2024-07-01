@@ -1,4 +1,7 @@
 import { NuevaAula } from "./aula";
+
+
+
 export class Horario {
     id_horario?:number = 0;
     dia: string = '';
@@ -16,6 +19,7 @@ export class CreateHorario {
   horaSalida!: string;
   modalidad!: string;
   aulaId!: number;
+  precio!: number;
 }
 
 
@@ -26,6 +30,7 @@ export class ViewHorario {
   horaSalida: string = '';
   modalidad: string = '';
   aula?: Aula;
+  precio: number = 0;
 }
 export class Aula {
   id_aula?: number;

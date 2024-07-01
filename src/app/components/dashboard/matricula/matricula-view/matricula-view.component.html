@@ -57,24 +57,31 @@
             </div>
           </div>
         </div>
-      </div>
+      
 
       <h5>Horarios</h5>
-      <div class="row">
         @for (horario of matricula.programacion.horario; track $index) {
         <div class="col-md-6">
           <p class="form-control" id="fecha">
-            {{horario.dia}} - {{ horario.horaInicio}} - {{horario.horaSalida}} - {{ horario.modalidad }}
+            {{horario.dia}} - {{ horario.horaInicio}} - {{horario.horaSalida}} - {{ horario.modalidad }} - ${{horario.precio}}
             @if (horario.modalidad == 'presencial') {
-              - {{horario.aula?.nombreAula}}
+              - {{horario.aula?.nombreAula}} - ${{horario.precio}}
             }
           </p>
 
         </div>
         }
+
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="precio" class="form-label">Total</label>
+            <div class="input-group">
+              <p class="form-control" id="precio">{{ matricula.materia.nombre }}</p>
+            </div>
+          </div>
+        </div>
       </div>
-
-
+      
 
 
     </form>

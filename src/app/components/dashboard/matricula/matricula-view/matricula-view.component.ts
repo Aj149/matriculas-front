@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { MatriculaList, MatriculaUpdate, MatriculaView, Programacion } from '../../../../models/matricula';
+import {  MatriculaView } from '../../../../models/matricula';
 import { MatriculaService } from '../../../../services/matricula.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HorarioService } from '../../../../services/horario.service';
-import { Horario, ViewHorario } from '../../../../models/horario';
+import { Horario } from '../../../../models/horario';
 import { NuevaAula } from '../../../../models/aula';
 import { AulaService } from '../../../../services/aula.service';
 import { Estudiante } from '../../../../models/estudiante';
@@ -47,7 +47,7 @@ export class MatriculaViewComponent {
     programacion:{
       id_programacion: 0,
       horario: []
-    }
+    },
   };
   usuarios: NuevoUsuario[] = [];
   estudiantes: Estudiante[] = [];
@@ -100,6 +100,33 @@ export class MatriculaViewComponent {
         }
       );
     }
+
+    //1 calcular precio de la matricula
+
+    // selectedHorarios: Horario[] = []; // Array para almacenar los horarios seleccionados
+
+    // toggleSelection(horario: Horario) {
+    //     horario.seleccionado = !horario.seleccionado;
+    
+    //     if (horario.seleccionado) {
+    //         this.selectedHorarios.push(horario);
+    //     } else {
+    //         this.selectedHorarios = this.selectedHorarios.filter(h => h.id !== horario.id);
+    //     }
+    
+    //     this.calcularPrecioTotal();
+    // }
+    
+    // calcularPrecioTotal() {
+    //     let totalPrice = 0;
+    //     this.selectedHorarios.forEach(horario => {
+    //         totalPrice += horario.precio;
+    //     });
+    //     return totalPrice;
+    // }
+    
+
+    //1 ######################################
 
     cargarUsuarios(): void {
       this.usuarioService.lista().subscribe(

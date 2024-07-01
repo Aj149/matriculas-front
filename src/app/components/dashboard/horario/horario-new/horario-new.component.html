@@ -45,13 +45,14 @@
       </select>
       }
 
-    <div class="mb-3 mt-3">
-      <div class="input-group">
-        <span class="input-group-text">$</span>
-        <input   type="number" class="form-control border-3 border-info" placeholder="Ingrese el precio" min="0" step="any"
-          name="clave" id="clave" required />
+      <div class="mb-3 mt-3">
+        <div class="input-group">
+          <span class="input-group-text">$</span>
+          <input type="number" class="form-control border-3 border-info" placeholder="Ingrese el precio" min="0" step="any"
+            name="precio" id="precio" [(ngModel)]="horario.precio"/>
+        </div>
       </div>
-    </div>
+      
     
 
       

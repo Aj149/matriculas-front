@@ -29,6 +29,8 @@ export class MatriculaNewComponent {
   materias: NuevaMateria[] = [];
   horarios: Horario[] = [];
   selectedHorarios: number[] = [];
+  totalPrecio: number = 0; 
+
 
   listaVacia: string | undefined;
   // isAdmin: boolean = true;
@@ -53,6 +55,7 @@ export class MatriculaNewComponent {
     this.cargarEstudiantes();
     this.cargarMaterias();
     this.cargarHorarios();
+    this.calcularTotal();
     // Obtener la fecha actual en el formato YYYY-MM-DD
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -162,6 +165,35 @@ export class MatriculaNewComponent {
     }
   }
 
+//1 para calcular el total
+getHorarioPrecio(id: number): number {
+  const horario = this.getHorario(id);
+  return horario ? horario.precio : 0;
+}
+
+removePrecio(horarioId: number): void {
+  const index = this.selectedHorarios.indexOf(horarioId);
+  if (index !== -1) {
+    this.selectedHorarios.splice(index, 1);
+    
+    this.calcularTotal(); // Recalcula el total al remover un horario
+  }
+}
+
+addPrecio(horarioId: number): void {
+  this.selectedHorarios.push(horarioId);
+  this.calcularTotal(); // Llama a calcularTotal() después de agregar un horario
+}
+
+calcularTotal(): void {
+  this.totalPrecio = 0;
+  this.selectedHorarios.forEach(id => {
+    this.totalPrecio += this.getHorarioPrecio(id);
+  });
+}
+//1 ###################################
+
+
   removeHorarioFromMatricula(horarioId: number) {
     const index = this.matricula.programacion.horario_id.indexOf(horarioId);
     if (index !== -1) {
@@ -172,6 +204,7 @@ export class MatriculaNewComponent {
   getHorario(id: number) {
     return this.horarios.find((h) => h.id_horario === id);
   }
+
 
   onHorarioChange() {
     if (!this.matricula.programacion) {

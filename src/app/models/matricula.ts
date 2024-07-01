@@ -1,5 +1,5 @@
 import { Estudiante, UpdateEstudiante, ViewEstudiante } from './estudiante';
-import { ViewHorario } from './horario';
+import { Horario, ViewHorario } from './horario';
 import { NuevaMateria, ViewMateria } from './materia';
 import { NuevoUsuario, Profesor, UpdateUsuario } from './nuevo-usuario';
 export class Matricula {
@@ -37,7 +37,6 @@ export class MatriculaView {
   profesor: Profesor = new Profesor();
   materia: ViewMateria = new ViewMateria();
   programacion: ProgramacionList = new ProgramacionList();
-
 }
 export class ProgramacionList {
   id_programacion?: number;

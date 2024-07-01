@@ -23,6 +23,7 @@ export class HorarioNewComponent implements OnInit {
     horaSalida: '',
     modalidad: '',
     aulaId: 0,
+    precio: 0,
   };
 
   aula: NuevaAula[] = [];
