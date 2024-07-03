@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import {  MatriculaView } from '../../../../models/matricula';
 import { MatriculaService } from '../../../../services/matricula.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,9 +10,14 @@ import { AulaService } from '../../../../services/aula.service';
 import { Estudiante } from '../../../../models/estudiante';
 import { NuevaMateria } from '../../../../models/materia';
 import { NuevoUsuario } from '../../../../models/nuevo-usuario';
+
 import { EstudianteService } from '../../../../services/estudiante.service';
 import { MateriaService } from '../../../../services/materia.service';
 import { AuthService } from '../../../../services/auth.service';
+import Swal from 'sweetalert2';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { InformeModel } from '../../../../models/informe';
 
 @Component({
   selector: 'app-matricula-view',
@@ -49,6 +54,20 @@ export class MatriculaViewComponent {
       horario: []
     },
   };
+
+  horario: Horario = {
+    id_horario: 0,
+    dia: '',
+    horaInicio: '',
+    horaSalida: '',
+    modalidad: '',
+    aula: {
+      id_aula: 0,
+      nombreAula: '',
+      capacidad: 0,
+    },
+    precio: 0
+  }
   usuarios: NuevoUsuario[] = [];
   estudiantes: Estudiante[] = [];
   materias: NuevaMateria[] = [];
@@ -57,6 +76,10 @@ export class MatriculaViewComponent {
 
   listaVacia: string | undefined;
 
+  //1 para el pdf
+  @ViewChild('content') content!: ElementRef;
+  info: InformeModel | null = null;
+//1 ###################
   constructor(
     private matriculaService: MatriculaService,
     private horarioService: HorarioService,
@@ -101,32 +124,6 @@ export class MatriculaViewComponent {
       );
     }
 
-    //1 calcular precio de la matricula
-
-    // selectedHorarios: Horario[] = []; // Array para almacenar los horarios seleccionados
-
-    // toggleSelection(horario: Horario) {
-    //     horario.seleccionado = !horario.seleccionado;
-    
-    //     if (horario.seleccionado) {
-    //         this.selectedHorarios.push(horario);
-    //     } else {
-    //         this.selectedHorarios = this.selectedHorarios.filter(h => h.id !== horario.id);
-    //     }
-    
-    //     this.calcularPrecioTotal();
-    // }
-    
-    // calcularPrecioTotal() {
-    //     let totalPrice = 0;
-    //     this.selectedHorarios.forEach(horario => {
-    //         totalPrice += horario.precio;
-    //     });
-    //     return totalPrice;
-    // }
-    
-
-    //1 ######################################
 
     cargarUsuarios(): void {
       this.usuarioService.lista().subscribe(
@@ -169,8 +166,36 @@ export class MatriculaViewComponent {
   volver(): void {
     this.router.navigate(['/dashboard/matricula']);
   }
-  downloadPDF1(): void {
-    this.router.navigate(['/dashboard/matricula']);
-  }
+  
+  public downloadPDF1(): void {
+    const estudiante = this.info?.estudiante;
+    const DATA = this.content.nativeElement;
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Quieres descargar el informe en formato PDF?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, descargar",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        html2canvas(DATA).then(canvas => {
+          const fileWidth = 190;
+          const fileHeight = canvas.height * fileWidth / canvas.width;
 
+          const FILEURI = canvas.toDataURL('image/png');
+          const PDF = new jsPDF('p', 'mm', 'a4');
+          const position = 10;
+          const leftMargin = 10;
+          PDF.addImage(FILEURI, 'PNG', leftMargin, position, fileWidth, fileHeight)
+
+          PDF.save(`informe_${estudiante}.pdf`);
+        }).catch(error => {
+          console.error('Error al generar el PDF:', error);
+        });
+      }
+    });
+  }
 }

@@ -9,6 +9,7 @@ import  { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { DatePipe } from '@angular/common';
 import { NuevoUsuario } from '../../../../models/nuevo-usuario';
+import { Profesor } from '../../../../models/nuevo-usuario';
 import { AuthService } from '../../../../services/auth.service';
 import Swal from 'sweetalert2';
 
@@ -70,7 +71,15 @@ export class InformeViewComponent implements OnInit {
 
   public downloadPDF1(): void {
     const estudiante = this.info?.estudiante;
+    const instructor = this.info?.instructor?.nombres_usuario;
     const DATA = this.content.nativeElement;
+
+    // Ocultar la sección de firmas antes de capturar la imagen
+    const firmasSection = document.getElementById('firmas');
+    if (firmasSection) {
+        firmasSection.style.display = 'none';
+    }
+
     Swal.fire({
       title: "¿Estás seguro?",
       text: "¿Quieres descargar el informe en formato PDF?",
@@ -90,18 +99,47 @@ export class InformeViewComponent implements OnInit {
           const PDF = new jsPDF('p', 'mm', 'a4');
           const position = 10;
           const leftMargin = 10;
-          PDF.addImage(FILEURI, 'PNG', leftMargin, position, fileWidth, fileHeight)
 
-          PDF.save(`informe_${estudiante}.pdf`);
+          PDF.addImage(FILEURI, 'PNG', leftMargin, position, fileWidth, fileHeight);
+
+          // Restaurar la visibilidad de la sección de firmas
+          if (firmasSection) {
+              firmasSection.style.display = 'block';
+          }
+
+          // Posicionar las firmas en el pie de página
+          const pageHeight = PDF.internal.pageSize.height;
+          const footerY = pageHeight - 30; // Ajustar según sea necesario
+
+          PDF.setFontSize(10);
+          PDF.text('--------------------------------', 20, footerY - 5);
+          PDF.text('Ing. David Robayo', 25, footerY);
+          PDF.text('Director General', 25, footerY + 5);
+
+          PDF.text('--------------------------------', 85, footerY - 5);
+          PDF.text('Tlga. Katherine Rosero', 85, footerY);
+          PDF.text('Coordinador General', 85, footerY + 5);
+
+          PDF.text('--------------------------------', 150, footerY - 5);
+          PDF.text(`${instructor}`, 155, footerY);
+          PDF.text('Instructor', 155, footerY + 5);
+
+          PDF.save(`informe_${estudiante}.pdf`);    
         }).catch(error => {
           console.error('Error al generar el PDF:', error);
         });
+      } else {
+          // Restaurar la visibilidad de la sección de firmas si la descarga es cancelada
+          if (firmasSection) {
+              firmasSection.style.display = 'block';
+          }
       }
     });
   }
 
 
+
   volver(): void {
     this.router.navigate(['/dashboard/informe']);
-  }
+  }
 }

@@ -148,7 +148,7 @@
           </table>
         </div>
         <!-- Esto solo ve el admin -->
-        <div class="row">
+        <div id="firmas" class="row">
           <div class="col-md-4 col-lg-4 text-center mt-4">
             <hr class="mt-4 text-dark border-2">
             <label for="firmaEncargado1" class="form-label">Ing. David Robayo</label>
@@ -163,10 +163,12 @@
           </div>
           <div class="col-md-4 col-lg-4 text-center mt-4">
             <hr class="mt-4 text-dark border-2">
-            <p> {{ info.instructor }} </p>
+            <p>{{ info.instructor.nombres_usuario }}</p>
             <label for="firmaEstudiante" class="form-label">Instructor</label>
           </div>
         </div>
+        
+        
       }
     </form>
     }
@@ -192,5 +194,5 @@
         Volver
       </h5>
     </button>
-  </div>
+  </div>
 </div>
