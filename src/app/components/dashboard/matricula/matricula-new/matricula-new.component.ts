@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { Matricula, Programacion } from '../../../../models/matricula';
+import { Matricula, Programacion, Materias } from '../../../../models/matricula';
 import { NuevoUsuario } from '../../../../models/nuevo-usuario';
 import { Estudiante } from '../../../../models/estudiante';
 import { MatriculaService } from '../../../../services/matricula.service';
 import { EstudianteService } from '../../../../services/estudiante.service';
 import { AuthService } from '../../../../services/auth.service';
 import { MateriaService } from '../../../../services/materia.service';
-import { NuevaMateria } from '../../../../models/materia';
+import { NuevaMateria, ViewMateria } from '../../../../models/materia';
 import { Horario } from '../../../../models/horario';
 import { HorarioService } from '../../../../services/horario.service';
 import { ToastrService } from 'ngx-toastr';
@@ -31,7 +31,9 @@ export class MatriculaNewComponent {
   selectedHorarios: number[] = [];
   totalPrecio: number = 0; 
 
-
+  //1 traer materias
+selectedMateria: number[] = [];
+//1################
   listaVacia: string | undefined;
   // isAdmin: boolean = true;
 
@@ -205,7 +207,7 @@ calcularTotal(): void {
     return this.horarios.find((h) => h.id_horario === id);
   }
 
-
+  
   onHorarioChange() {
     if (!this.matricula.programacion) {
       this.matricula.programacion = new Programacion();
@@ -217,4 +219,32 @@ calcularTotal(): void {
       }
     }
   }
+ 
+  //1 traer las materias
+  
+  onMateriaChange() {
+    if (!this.matricula.materias) {
+      this.matricula.materias = new Materias();
+      this.matricula.materias.materias_id = [];
+    }
+    for (let materiasId of this.selectedMateria) {
+      if (!this.matricula.materias.materias_id.includes(materiasId)) {
+        this.matricula.materias.materias_id.push(materiasId);
+      }
+    }
+  }
+
+  removeMateria(materiasId: number) {
+    const index = this.matricula.materias.materias_id.indexOf(materiasId);
+    if (index !== -1) {
+      this.matricula.materias.materias_id.splice(index, 1);
+    }
+  }
+
+  getMateria(id: number) {
+    return this.materias.find((h) => h.id_materia === id);
+  }
+
+  //1 ##################################
 }
+
