@@ -52,6 +52,18 @@
       }
     </select>
   </div>
+  
+  
+  <div class="mt-3">
+    <label for="materia">Horario</label>
+    <select id="materia" [(ngModel)]="matricula.horario" class="form-control rounded border border-3 border-info"
+      name="materia">
+      <option value="" disabled selected>Selecione la materia</option>
+      @for (horario of horarios; track $index) {
+      <option [ngValue]="matricula.horario">{{ matricula.horario }}</option>
+      }
+    </select>
+  </div>
 
   <div class="mt-3">
     <label for="modalidad">Filtrar horario por modalidad</label>

@@ -49,12 +49,12 @@ export class MatriculaViewComponent {
       id_materia: 0,
       nombre: '',
     },
-    programacion:{
+    programacion: {
       id_programacion: 0,
       horario: []
     },
+    horario: ''
   };
-
   horario: Horario = {
     id_horario: 0,
     dia: '',
@@ -66,8 +66,9 @@ export class MatriculaViewComponent {
       nombreAula: '',
       capacidad: 0,
     },
-    precio: 0
+    precio: 0,
   }
+  
   usuarios: NuevoUsuario[] = [];
   estudiantes: Estudiante[] = [];
   materias: NuevaMateria[] = [];
@@ -124,6 +125,32 @@ export class MatriculaViewComponent {
       );
     }
 
+    //1 calcular precio de la matricula
+
+    // selectedHorarios: Horario[] = []; // Array para almacenar los horarios seleccionados
+
+    // toggleSelection(horario: Horario) {
+    //     horario.seleccionado = !horario.seleccionado;
+    
+    //     if (horario.seleccionado) {
+    //         this.selectedHorarios.push(horario);
+    //     } else {
+    //         this.selectedHorarios = this.selectedHorarios.filter(h => h.id !== horario.id);
+    //     }
+    
+    //     this.calcularPrecioTotal();
+    // }
+    
+    // calcularPrecioTotal() {
+    //     let totalPrice = 0;
+    //     this.selectedHorarios.forEach(horario => {
+    //         totalPrice += horario.precio;
+    //     });
+    //     return totalPrice;
+    // }
+    
+
+    //1 ######################################
 
     cargarUsuarios(): void {
       this.usuarioService.lista().subscribe(

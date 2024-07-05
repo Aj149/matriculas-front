@@ -4,9 +4,10 @@ import { HorarioService } from '../../../../services/horario.service';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from '../../../../services/token.service';
-import { CreateHorario } from '../../../../models/horario';
+import { CreateHorario, Horario } from '../../../../models/horario';
 import { NuevaAula } from '../../../../models/aula';
 import { AulaService } from '../../../../services/aula.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-horario-new',
@@ -24,6 +25,7 @@ export class HorarioNewComponent implements OnInit {
     modalidad: '',
     aulaId: 0,
     precio: 0,
+    horario: '',
   };
 
   aula: NuevaAula[] = [];
@@ -55,7 +57,7 @@ export class HorarioNewComponent implements OnInit {
   }
 
   create(): void {
-    console.log('ID del aula seleccionada:', this.horario.aulaId); // Agregar esta línea
+    console.log('ID del aula seleccionada:', this.horario.aulaId);
     this.horarioService.create(this.horario).subscribe(
       (data: any) => {
         this.toastr.success(data.message, 'horario creado exitosamente', {

@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { NuevoUsuario } from '../../../../models/nuevo-usuario';
 import { Estudiante } from '../../../../models/estudiante';
-import { Horario } from '../../../../models/horario';
+import { CreateHorario, Horario } from '../../../../models/horario';
 import { NuevaMateria } from '../../../../models/materia';
 import { AuthService } from '../../../../services/auth.service';
 import { EstudianteService } from '../../../../services/estudiante.service';
@@ -28,6 +28,7 @@ export class MatriculaEditComponent {
     fecha: '',
     fechaInicio: '',
     fechaFinal: '',
+    horario: '',
     alumno: {
       id_estudiante: 0,
       nombre_estudiante: '',
@@ -41,8 +42,9 @@ export class MatriculaEditComponent {
       id_materia: 0,
       nombre: '',
     },
-    programacion: new Programacion()
+    programacion: new Programacion(),
   };
+  
   usuarios: NuevoUsuario[] = [];
   estudiantes: Estudiante[] = [];
   materias: NuevaMateria[] = [];

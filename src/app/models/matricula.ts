@@ -9,7 +9,10 @@ export class Matricula {
   fechaFinal: string = '';
   id_estudiante: number = 0;
   id_usuario: number = 0;
-  id_materia: number = 0;
+  id_materias: number [] =[];
+  // 4para los horarios
+  horario: string = '';
+  // 4###############
   programacion: Programacion = new Programacion();
   materia: ViewMateria = new ViewMateria();
   //1 traer las materias
@@ -30,6 +33,7 @@ export class MatriculaList {
   fecha: string = '';
   fechaInicio: string = '';
   fechaFinal: string = '';
+  horario: string = '';
   alumno: Estudiante = new Estudiante();
   profesor: NuevoUsuario = new NuevoUsuario();
   materia: NuevaMateria = new NuevaMateria();
@@ -42,11 +46,13 @@ export class MatriculaView {
   fecha: string = '';
   fechaInicio: string = '';
   fechaFinal: string = '';
+  horario: string = '';
   alumno: ViewEstudiante = new ViewEstudiante();
   profesor: Profesor = new Profesor();
   materia: ViewMateria = new ViewMateria();
   programacion: ProgramacionList = new ProgramacionList();
 }
+
 export class ProgramacionList {
   id_programacion?: number;
   horario: ViewHorario[] =[];
@@ -58,6 +64,7 @@ export class MatriculaUpdate {
   fecha: string = '';
   fechaInicio: string = '';
   fechaFinal: string = '';
+  horario: string = '';
   alumno!: UpdateEstudiante;
   profesor!: UpdateUsuario;
   materia!: NuevaMateria;

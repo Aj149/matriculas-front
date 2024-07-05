@@ -10,6 +10,7 @@ export class Horario {
     modalidad: string = '';
     aula: NuevaAula  = new NuevaAula();
     precio: number = 0;
+
 }
 
 export class CreateHorario {
@@ -20,6 +21,7 @@ export class CreateHorario {
   modalidad!: string;
   aulaId!: number;
   precio!: number;
+  horario!: string;
 }
 
 

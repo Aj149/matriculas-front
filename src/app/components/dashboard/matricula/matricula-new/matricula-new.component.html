@@ -55,9 +55,9 @@
 
 
   <div class="mt-3">
-    <h5>Materias Seleccionadas</h5>
+    <label>Materias Seleccionadas</label>
     <ul class="list-group list-group-flush form-control rounded border border-3 border-info">
-      @for (materiasId of matricula.materias.materias_id; track materiasId) {
+      @for (materiasId of matricula.id_materias; track materiasId) {
       <li class="list-group-item">
         {{ getMateria(materiasId)?.nombre }}
         <button type="button" class="btn btn-danger" (click)="removeMateria(materiasId)">
@@ -135,15 +135,13 @@
     </ul>
   </div>
 
-<div class="mt 3">
-  <div class="form-group">
-    <label for="modalidad">Horario</label>
-    <select class="form-control rounded border border-3 border-info" id="modalidad" name="modalidad">
-      <option value="" disabled selected>Seleccione un horario</option>
-      <option>Tarde</option>
-      <option>Rotativo</option>
+  <div class="mt-3">
+    <select name="horarios" id="horarios" class="form-control mt-3 rounded border border-3 border-info"
+    [(ngModel)]="matricula.horario">
+      <option value="" disabled selected>Escoja el horario</option>
+      <option value="Rotativo">Rotativo</option>
+      <option value="Tarde">Tarde</option>
     </select>
-  </div>
 </div>
 
 <div class="mt 3">
@@ -176,3 +174,5 @@
     </h5>
   </button>
 </form>
+
+

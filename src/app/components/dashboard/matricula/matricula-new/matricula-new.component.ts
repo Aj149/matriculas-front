@@ -7,7 +7,7 @@ import { EstudianteService } from '../../../../services/estudiante.service';
 import { AuthService } from '../../../../services/auth.service';
 import { MateriaService } from '../../../../services/materia.service';
 import { NuevaMateria, ViewMateria } from '../../../../models/materia';
-import { Horario } from '../../../../models/horario';
+import { CreateHorario, Horario } from '../../../../models/horario';
 import { HorarioService } from '../../../../services/horario.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -30,7 +30,6 @@ export class MatriculaNewComponent {
   horarios: Horario[] = [];
   selectedHorarios: number[] = [];
   totalPrecio: number = 0; 
-
   //1 traer materias
 selectedMateria: number[] = [];
 //1################
@@ -67,10 +66,29 @@ selectedMateria: number[] = [];
     this.matricula.fecha = `${yyyy}-${mm}-${dd}`;
   }
 
+  // crearMatricula(): void {
+  //   this.matriculaService.save(this.matricula).subscribe(
+  //     (data: any) => {
+  //       this.toastr.success(data.message, 'Matricula Creada con exito', {
+  //         timeOut: 3000,
+  //         positionClass: 'toast-top-center',
+  //       });
+  //       this.volver();
+  //     },
+  //     (err: any) => {
+  //       this.toastr.error(err.error.message, 'Fail', {
+  //         timeOut: 3000,
+  //         positionClass: 'toast-top-center',
+  //       });
+  //     }
+  //   );
+  // }
+
   crearMatricula(): void {
+    console.log('Datos de la matrícula a enviar:', this.matricula); // Verificar los datos enviados
     this.matriculaService.save(this.matricula).subscribe(
       (data: any) => {
-        this.toastr.success(data.message, 'Matricula Creada con exito', {
+        this.toastr.success(data.message, 'Matrícula Creada con éxito', {
           timeOut: 3000,
           positionClass: 'toast-top-center',
         });
@@ -81,6 +99,7 @@ selectedMateria: number[] = [];
           timeOut: 3000,
           positionClass: 'toast-top-center',
         });
+        console.error('Error al crear la matrícula:', err); // Verificar el error recibido
       }
     );
   }
@@ -225,19 +244,21 @@ calcularTotal(): void {
   onMateriaChange() {
     if (!this.matricula.materias) {
       this.matricula.materias = new Materias();
-      this.matricula.materias.materias_id = [];
+      this.matricula.id_materias = [];
     }
     for (let materiasId of this.selectedMateria) {
-      if (!this.matricula.materias.materias_id.includes(materiasId)) {
-        this.matricula.materias.materias_id.push(materiasId);
+      if (!this.matricula.id_materias.includes(materiasId)) {
+        this.matricula.id_materias.push(materiasId);
       }
     }
+    console.log('Materias seleccionadas:', this.matricula.id_materias); // Verificar los IDs de materias seleccionadas
   }
+  
 
   removeMateria(materiasId: number) {
-    const index = this.matricula.materias.materias_id.indexOf(materiasId);
+    const index = this.matricula.id_materias.indexOf(materiasId);
     if (index !== -1) {
-      this.matricula.materias.materias_id.splice(index, 1);
+      this.matricula.id_materias.splice(index, 1);
     }
   }
 
@@ -247,4 +268,6 @@ calcularTotal(): void {
 
   //1 ##################################
 }
+
+
 
