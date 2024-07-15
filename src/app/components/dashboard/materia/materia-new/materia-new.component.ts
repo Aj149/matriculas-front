@@ -10,11 +10,12 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [FormsModule],
   templateUrl: './materia-new.component.html',
-  styleUrl: './materia-new.component.css'
+  styleUrls: ['./materia-new.component.css']
 })
 export class MateriaNewComponent {
 
   nombre: string = '';
+  abreviatura: string = '';
 
   constructor(
     private materiaService: MateriaService,
@@ -25,6 +26,25 @@ export class MateriaNewComponent {
   Create(): void {
     const materia = new NuevaMateria();
     materia.nombre = this.nombre;
+    materia.abreviatura = this.abreviatura;
+    
+    if (materia.nombre === '' || materia.abreviatura === '') {
+      this.toastr.error('Campos vacíos', 'Fail', {
+        timeOut: 3000,
+        positionClass: 'toast-top-center'
+      });
+      return;
+    }
+
+    const abreviaturaPattern = /^[A-Z]{3}$/;
+    if (!abreviaturaPattern.test(materia.abreviatura)) {
+      this.toastr.error('La abreviatura debe ser de 3 letras y sin puntos ni comas', 'Fail', {
+        timeOut: 3000,
+        positionClass: 'toast-top-center'
+      });
+      return;
+    }
+
     this.materiaService.save(materia).subscribe(
       (data: any) => {
         this.toastr.success(data.message, 'Ok', {
@@ -42,5 +62,26 @@ export class MateriaNewComponent {
 
   volver(): void {
     this.router.navigate(['/dashboard/materia']);
+  }
+
+  onInputAbreviatura(event: any): void {
+    let value = event.target.value.toUpperCase();
+    const invalidChars = /[^A-Z]/g;
+    if (invalidChars.test(value)) {
+      this.toastr.warning('Solo se permiten 3 caracteres sin puntos, ni comas ni números', 'Advertencia', {
+        timeOut: 3000,
+        positionClass: 'toast-top-center'
+      });
+    }
+    value = value.replace(invalidChars, '');
+    if (value.length > 3) {
+      this.toastr.warning('Solo se permiten 3 caracteres sin puntos, ni comas ni números', 'Advertencia', {
+        timeOut: 3000,
+        positionClass: 'toast-top-center'
+      });
+      value = value.slice(0, 3);
+    }
+    this.abreviatura = value;
+    event.target.value = value;
   }
 }

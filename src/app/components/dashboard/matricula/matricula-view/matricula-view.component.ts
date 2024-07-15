@@ -18,6 +18,8 @@ import Swal from 'sweetalert2';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { InformeModel } from '../../../../models/informe';
+import { NuevoTurno, ViewTurno } from '../../../../models/turno';
+import { TurnoService } from '../../../../services/turno.service';
 
 @Component({
   selector: 'app-matricula-view',
@@ -53,7 +55,8 @@ export class MatriculaViewComponent {
       id_programacion: 0,
       horario: []
     },
-    horario: ''
+    horario: '',
+    turno: new ViewTurno
   };
   horario: Horario = {
     id_horario: 0,
@@ -72,6 +75,7 @@ export class MatriculaViewComponent {
   usuarios: NuevoUsuario[] = [];
   estudiantes: Estudiante[] = [];
   materias: NuevaMateria[] = [];
+  turnos: NuevoTurno[] = [];
   horarios: Horario[] = [];
   aulas: NuevaAula[] = [];
 
@@ -86,6 +90,7 @@ export class MatriculaViewComponent {
     private horarioService: HorarioService,
     private estudianteService: EstudianteService,
     private materiaService: MateriaService,
+    private turnoService: TurnoService,
     private usuarioService: AuthService,
     private aulaService:AulaService,
     private activatedRoute: ActivatedRoute,
@@ -111,6 +116,7 @@ export class MatriculaViewComponent {
       this.cargarUsuarios();
       this.cargarEstudiantes();
       this.cargarMaterias();
+      this.cargarTurnos();
     }
 
     cargarHorario(): void {
@@ -187,6 +193,18 @@ export class MatriculaViewComponent {
           this.listaVacia = 'No tienes materias';
         }
       );
+    }
+
+    cargarTurnos(){
+      this.turnoService.lista().subscribe(
+        (data: NuevoTurno[]) => {
+          this.turnos = data;
+          this.listaVacia = undefined;
+        },
+        (error:any) => {
+          this.listaVacia = 'No tienes turnos'
+        }
+      )
     }
 
 

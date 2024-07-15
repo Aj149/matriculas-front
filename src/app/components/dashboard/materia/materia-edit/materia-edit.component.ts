@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NuevaMateria } from '../../../../models/materia';
-import { MateriaService } from '../../../../services/materia.service';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { FormsModule } from '@angular/forms';
+import { NuevaMateria } from '../../../../models/materia';
+import { MateriaService } from '../../../../services/materia.service';
 // Sweetalert -> para las alertas
 import Swal from 'sweetalert2';
 
@@ -12,11 +12,12 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [FormsModule],
   templateUrl: './materia-edit.component.html',
-  styleUrl: './materia-edit.component.css'
+  styleUrls: ['./materia-edit.component.css']
 })
 export class MateriaEditComponent {
   materia: NuevaMateria = {
     nombre: '',
+    abreviatura: '',
   };
 
   constructor(
@@ -34,7 +35,8 @@ export class MateriaEditComponent {
       },
       (err: any) => {
         this.toastr.error(err.error.message, 'Fail', {
-          timeOut: 3000, positionClass: 'toast-top-center',
+          timeOut: 3000,
+          positionClass: 'toast-top-center',
         });
         this.volver();
       }
@@ -57,18 +59,41 @@ export class MateriaEditComponent {
         this.materiaService.update(id_materia, this.materia).subscribe(
           (data: any) => {
             this.toastr.success(data.message, 'OK', {
-              timeOut: 3000, positionClass: 'toast-top-center'
+              timeOut: 3000,
+              positionClass: 'toast-top-center'
             });
             this.volver();
           },
           (err: any) => {
             this.toastr.error(err.error.message, 'Fail', {
-              timeOut: 3000, positionClass: 'toast-top-center',
+              timeOut: 3000,
+              positionClass: 'toast-top-center',
             });
           }
         );
       }
     });
+  }
+
+  onAbreviaturaChange(event: any): void {
+    let value = event.target.value.toUpperCase();
+    const invalidChars = /[^A-Z]/g;
+    if (invalidChars.test(value)) {
+      this.toastr.warning('Solo se permiten 3 caracteres sin puntos, ni comas ni números', 'Advertencia', {
+        timeOut: 3000,
+        positionClass: 'toast-top-center'
+      });
+    }
+    value = value.replace(invalidChars, '');
+    if (value.length > 3) {
+      this.toastr.warning('Solo se permiten 3 caracteres sin puntos, ni comas ni números', 'Advertencia', {
+        timeOut: 3000,
+        positionClass: 'toast-top-center'
+      });
+      value = value.slice(0, 3);
+    }
+    this.materia.abreviatura = value;
+    event.target.value = value;
   }
 
   volver(): void {

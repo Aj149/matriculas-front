@@ -1,28 +1,28 @@
-<form class="mt-5 mb-5 rounded-5 border border-3 border-info mx-auto p-3 col-lg-5 col-11" (ngSubmit)="crearMatricula()">
-  <div class="mt-3 mb-4 rounded-pill bg-info text-white w-100 text-center p-2">
+<form class="mt-5 mb-5 rounded-5 border border-3 mx-auto p-3 col-lg-5 col-11" (ngSubmit)="crearMatricula()">
+  <div class="mt-3 mb-4 rounded-pill text-white w-100 text-center p-2" style="background-color: #273063;">
     <h5>CREAR MATRICULA</h5>
   </div>
   <div>
     <label for="fecha">Fecha</label>
-    <input type="date" id="fecha" class="form-control rounded border border-3 border-info" [(ngModel)]="matricula.fecha"
+    <input type="date" id="fecha" class="form-control rounded border border-3 "  style="border-color: #273063;" [(ngModel)]="matricula.fecha"
       name="fecha">
   </div>
 
   <div class="mt-3">
     <label for="fechaInicio">Fecha de inicio</label>
-    <input type="date" id="fechaInicio" class="form-control rounded border border-3 border-info"
+    <input type="date" id="fechaInicio" class="form-control rounded border border-3"
       [(ngModel)]="matricula.fechaInicio" name="fechaInicio">
   </div>
 
   <div class="mt-3">
     <label for="fechaFinal">Fecha final</label>
-    <input type="date" id="fechaFinal" class="form-control rounded border border-3 border-info"
+    <input type="date" id="fechaFinal" class="form-control rounded border border-3"
       [(ngModel)]="matricula.fechaFinal" name="fechaFinal">
   </div>
 
   <div class="mt-3">
     <label for="usuario">Docente</label>
-    <select id="usuario" [(ngModel)]="matricula.id_usuario" class="form-control rounded border border-3 border-info"
+    <select id="usuario" [(ngModel)]="matricula.id_usuario" class="form-control rounded border border-3"
       name="usuario">
       <option value="" disabled selected>Selecione un docente</option>
       @for (usuario of usuarios; track $index) {
@@ -34,7 +34,7 @@
   <div class="mt-3">
     <label for="estudiante">Estudiante</label>
     <select id="estudiante" [(ngModel)]="matricula.id_estudiante"
-      class="form-control rounded border border-3 border-info" name="estudiante">
+      class="form-control rounded border border-3" name="estudiante">
       <option value="" disabled selected>Selecione un estudiante</option>
       @for (estudiante of estudiantes; track $index) {
       <option [ngValue]="estudiante.id_estudiante">{{ estudiante.nombre_estudiante }}</option>
@@ -43,7 +43,20 @@
   </div>
 
 
-  <div class="mt-3">
+ <!-- 1seleccionar materias (codigo anterior) -->
+<div class="mt-3">
+  <label for="materia">Materia</label>
+  <select id="materia" [(ngModel)]="matricula.id_materia" class="form-control rounded border border-3 border-info"
+    name="materia">
+    <option value="" disabled selected>Selecione la materia</option>
+    @for (materia of materias; track $index) {
+    <option [ngValue]="materia.id_materia">{{ materia.nombre }}</option>
+    }
+  </select>
+</div>
+<!-- 1seleccionar materias (codigo anterior) -->
+
+  <!-- <div class="mt-3">
     <label for="materia">Materias</label>
     <select id="materia" [(ngModel)]="selectedMateria" class="form-control rounded border border-3 border-info"
       name="materia"  (change)="onMateriaChange()" multiple>
@@ -57,7 +70,7 @@
   <div class="mt-3">
     <label>Materias Seleccionadas</label>
     <ul class="list-group list-group-flush form-control rounded border border-3 border-info">
-      @for (materiasId of matricula.id_materias; track materiasId) {
+      @for (materiasId of matricula.materias.materia_id; track materiasId) {
       <li class="list-group-item">
         {{ getMateria(materiasId)?.nombre }}
         <button type="button" class="btn btn-danger" (click)="removeMateria(materiasId)">
@@ -70,12 +83,23 @@
       </li>
       }
     </ul>
+  </div> -->
+
+  <div class="mt-3">
+    <label for="turno">Turnos</label>
+    <select name="turno" id="turno" class="form-control mt-3 rounded border border-3 border-info"
+    [(ngModel)]="matricula.id_turno">
+      <option value="" disabled selected>Escoja el horario</option>
+      @for (turno of turnos; track turno) {
+        <option [ngValue]="turno.id_turno">{{ turno.nombreTurno }}</option>
+        }
+    </select>
   </div>
 
 
   <div class="mt-3">
     <label for="modalidad">Filtrar horario por modalidad</label>
-    <select id="modalidad" [(ngModel)]="selectedModalidad" class="form-control rounded border border-3 border-info"
+    <select id="modalidad" [(ngModel)]="selectedModalidad" class="form-control rounded border border-3 "
       (change)="cargarHorarios()" name="modalidad">
       <option value="" disabled selected>Selecione la modalidad</option>
       <option value="presencial">Presencial</option>
@@ -87,7 +111,7 @@
  
   <div class="mt-3">
     <label for="horario">Horario</label>
-    <select id="horario" [(ngModel)]="selectedHorarios" class="form-control rounded border border-3 border-info"
+    <select id="horario" [(ngModel)]="selectedHorarios" class="form-control rounded border border-3 "
       (change)="onHorarioChange()" multiple name="horario">
       @for (horario of horarios | filterByModalidad: selectedModalidad; track $index) {
       <option [value]="horario.id_horario">{{ horario.dia }} - {{ horario.horaInicio }} - {{ horario.horaSalida }}
@@ -102,7 +126,7 @@
 
   <div class="mt-3">
     <h5>Horarios Seleccionados</h5>
-    <ul class="list-group list-group-flush form-control rounded border border-3 border-info">
+    <ul class="list-group list-group-flush form-control rounded border border-3">
       @for (horarioId of matricula.programacion.horario_id; track horarioId) {
       <li class="list-group-item">
         {{ getHorario(horarioId)?.dia }} - {{ getHorario(horarioId)?.horaInicio }}
@@ -125,7 +149,7 @@
 
   <div class="mt-3">
     <h5>Total horas:</h5>
-    <ul class="list-group list-group-flush form-control rounded border border-3 border-info">
+    <ul class="list-group list-group-flush form-control rounded border border-3 ">
     @for (horarioId of matricula.programacion.horario_id; track horarioId) {
       <li class="list-group-item">
         ${{ getHorarioPrecio(horarioId) }}
@@ -136,7 +160,7 @@
   </div>
 
   <div class="mt-3">
-    <select name="horarios" id="horarios" class="form-control mt-3 rounded border border-3 border-info"
+    <select name="horarios" id="horarios" class="form-control mt-3 rounded border border-3"
     [(ngModel)]="matricula.horario">
       <option value="" disabled selected>Escoja el horario</option>
       <option value="Rotativo">Rotativo</option>
@@ -147,7 +171,7 @@
 <div class="mt 3">
   <div class="form-group">
     <label for="materiales">Materiales</label>
-    <input class="form-control rounded border border-3 border-info" type="text" name="materiales" id="materiales">
+    <input class="form-control rounded border border-3" type="text" name="materiales" id="materiales">
   </div>
 </div>
 
@@ -155,14 +179,14 @@
 <div class="mt 3">
   <div class="form-group">
     <label for="observaciones">observaciones</label>
-    <textarea class="form-control rounded border border-3 border-info" name="observaciones" rows="2"
+    <textarea class="form-control rounded border border-3" name="observaciones" rows="2"
               ></textarea>
   </div>
 </div>
 
   
 
-  <button type="submit" class="color_boton border-0 mt-3 rounded-pill mb-1 text-white w-100 p-2 h4">Guardar</button>
+  <button type="submit" class="color_boton border-0 mt-3 rounded-pill mb-1 text-white w-100 p-2 h4" style="background-color: #273063;">Guardar</button>
   <button class="btn btn-danger border-0 mt-4 rounded-pill mb-1 text-white w-100 p-2" (click)="volver()">
     <h5>
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
@@ -174,5 +198,4 @@
     </h5>
   </button>
 </form>
-
-
+matricula new

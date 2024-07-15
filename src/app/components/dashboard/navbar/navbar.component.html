@@ -1,13 +1,15 @@
-<nav class="navbar bg-info">
+<nav class="navbar" style="background-color: #273063;">
   <div class="container-fluid">
+    <img width="7%" class="rounded-4 img2" 
+          src="https://firebasestorage.googleapis.com/v0/b/parte-2-b252a.appspot.com/o/Globales%2FLogo_para_navbar.jpg?alt=media&token=1bec5d87-36dd-483c-a7c1-11e6b7c650f3">
     <a class="navbar-brand" routerLink="/dashboard">
-      <h4 class="text-light"><b>IEC | INSTITUTO DE ENSEÑANZA CONTINUA</b></h4>
+      <h4 class="text-light texto"><b>IEC | INSTITUTO DE ENSEÑANZA CONTINUA</b></h4>
     </a>
     <button class="navbar-toggler bg-light text-light" type="button" data-bs-toggle="offcanvas"
       data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="offcanvas bg-info offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+    <div class="offcanvas offcanvas-end" style="background-color: #273063;" tabindex="-1" id="offcanvasNavbar"
       aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header">
         @if (isLogged === false) {
@@ -21,7 +23,7 @@
         }
         <button type="button" class="btn-close bg-danger" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <div class="offcanvas-body">
+      <div class="offcanvas-body hambur">
         <ul class="navbar-nav">
           @if (isAdmin) {
           <li class="nav-item active dropdown me-5">

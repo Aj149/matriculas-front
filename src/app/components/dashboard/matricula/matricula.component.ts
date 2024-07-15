@@ -14,6 +14,8 @@ import { TokenService } from '../../../services/token.service';
 import { FormsModule } from '@angular/forms';
 import { BuscadorMatriculaPipe } from '../../../pipes/buscador-matricula.pipe';
 import { ToastrService } from 'ngx-toastr';
+import { NuevoTurno } from '../../../models/turno';
+import { TurnoService } from '../../../services/turno.service';
 
 @Component({
   selector: 'app-matricula',
@@ -28,6 +30,7 @@ export class MatriculaComponent {
   usuarios: NuevoUsuario[] = [];
   estudiantes: Estudiante[] = [];
   materias: NuevaMateria[] = [];
+  turnos: NuevoTurno[] = []
 
   public page!: number;
   listaVacia: string | undefined;
@@ -41,6 +44,7 @@ export class MatriculaComponent {
     private usuarioService: AuthService,
     private estudianteService: EstudianteService,
     private materiaService: MateriaService,
+    private turnoService: TurnoService,
     private tokenService: TokenService,
     private toaster: ToastrService
   ) {
@@ -63,6 +67,7 @@ export class MatriculaComponent {
     this.cargarUsuarios();
     this.cargarEstudiantes();
     this.cargarMaterias();
+    this.cargarTurnos();
   }
 
   obtenerMatriculas(): void {
@@ -124,6 +129,20 @@ export class MatriculaComponent {
       }
     );
   }
+
+  cargarTurnos(){
+    this.turnoService.lista().subscribe(
+      (data: NuevoTurno[]) => {
+        this.turnos = data;
+        this.listaVacia = undefined;
+      },
+      (error:any) => {
+        this.listaVacia = 'No tienes turnos'
+      }
+    )
+  }
+
+
 
   confirmarEliminar(id_matricula: number): void {
     Swal.fire({

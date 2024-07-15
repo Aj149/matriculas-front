@@ -3,18 +3,17 @@
     <div class="col-lg-12 mx-auto">
       <form class="text-center" (ngSubmit)="Create()" novalidate #f="ngForm">
         <div class="text-center mb-4">
-          <div class="mt-3 rounded-5 border border-3 border-info mx-auto p-3 col-lg-3">
-            <div class="mt-3 rounded-pill bg-info text-white w-100 mx-auto p-2">
+          <div class="mt-3 rounded-5 border border-3 mx-auto p-3 col-lg-3" style="border-color: #273063;">
+            <div class="mt-3 rounded-pill text-white w-100 mx-auto p-2" style="background-color: #273063;">
               <h5>CREE UNA MATERIA</h5>
             </div>
             <div class="mt-4">
               <div class="form-group">
-                <input type="text" class="form-control mt-3 rounded border border-3 border-info" id="nombre"
-                  name="nombre" [(ngModel)]="nombre" required autocomplete="off" placeholder="Nombre de la materia">
+                <input type="text" class="form-control mt-3 rounded border border-3 " id="nombre"
+                  name="nombre" [(ngModel)]="nombre" required autocomplete="off" placeholder="Nombre de la materia" style="border-color: #273063;">
               </div>
             </div>
-            <button type="submit" class="color-boton border-0 mt-4 rounded-pill mb-1 text-white w-100 p-2"
-              [disabled]="!f.valid">
+            <button type="submit" class=" border-0 mt-4 rounded-pill mb-1 text-white w-100 p-2" style="background-color: #273063;" [disabled]="!f.valid">
               Guardar
             </button>
             <button class="btn btn-danger border-0 mt-4 rounded-pill mb-1 text-white w-100 p-2" (click)="volver()">

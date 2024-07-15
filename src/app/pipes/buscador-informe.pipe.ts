@@ -7,16 +7,15 @@ import { InformeModel } from '../models/informe';
 })
 export class BuscadorInformePipe implements PipeTransform {
 
-  transform(informe: InformeModel[], searchTerm: string): InformeModel[] {
-    if (!searchTerm || searchTerm.trim() === '') {
+  transform(informe: InformeModel[], searchTerm: string, searchDate: string): InformeModel[] {
+    if (!searchTerm && !searchDate) {
       return informe;
     }
 
-    const searchTermLower = searchTerm.toLowerCase();
-
-    return informe.filter((info: InformeModel) =>
-      info.estudiante.toLowerCase().includes(searchTermLower)
-    );
+    return informe.filter((info: InformeModel) => {
+      const matchesName = searchTerm ? info.estudiante.toLowerCase().includes(searchTerm.toLowerCase()) : true;
+      const matchesDate = searchDate ? new Date(info.fecha).toISOString().split('T')[0] === searchDate : true;
+      return matchesName && matchesDate;
+    });
   }
-
 }

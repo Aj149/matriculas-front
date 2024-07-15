@@ -8,6 +8,7 @@ export class InformeModel {
   hora: string = '';
   codigo: string = '';
   materia: string = '';
+  turno: string = '';
   tema_general: string = '';
   tema_secundario: string = '';
   actitud_estudiante: string = '';
@@ -29,6 +30,7 @@ export class NuevoInforme {
   hora: string = '';
   codigo: string = '';
   materia: string = '';
+  turno: string = '';
   tema_general: string = '';
   tema_secundario: string = '';
   actitud_estudiante: string = '';

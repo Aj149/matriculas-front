@@ -38,6 +38,10 @@ export class MatriculaService {
     return this.httpClient.post<any>(`${this.matriculaURL}`, materia);
   }
 
+  public guardar(turno: Matricula): Observable<any>{
+    return this.httpClient.post<any>(`${this.matriculaURL}`, turno)
+  }
+
   public update(id_matricula: number, matricula: MatriculaUpdate): Observable<any> {
     return this.httpClient.patch<any>(`${this.matriculaURL}${id_matricula}`, matricula);
   }

@@ -25,6 +25,10 @@ export class BuscadorMatriculaPipe implements PipeTransform {
       return true;
     }
 
+    if (matricula.turno.nombreTurno.toLowerCase().includes(searchTerm)){
+      return true;
+    }
+
     // Comprobar si el término de búsqueda coincide con el nombre del estudiante
     if (matricula.alumno.nombre_estudiante.toLowerCase().includes(searchTerm)) {
       return true;

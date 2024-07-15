@@ -7,16 +7,18 @@ import { Estudiante } from '../models/estudiante';
 })
 export class BuscadorEstudiantePipe implements PipeTransform {
 
-  transform(estudiante: Estudiante[], searchTerm: string): Estudiante[] {
-    if (!searchTerm || searchTerm.trim() === '') {
-      return estudiante;
-    }
+  transform(estudiantes: Estudiante[], nombre: string, cedula: string): Estudiante[] {
+    if (!estudiantes) return [];
+    if (!nombre && !cedula) return estudiantes;
 
-    const searchTermLower = searchTerm.toLowerCase();
+    const nombreLower = nombre ? nombre.toLowerCase() : '';
+    const cedulaLower = cedula ? cedula.toLowerCase() : '';
 
-    return estudiante.filter((estudiantes: Estudiante) =>
-      estudiantes.nombre_estudiante.toLowerCase().includes(searchTermLower)
-    );
+    return estudiantes.filter(estudiante => {
+      const matchesNombre = nombre ? estudiante.nombre_estudiante.toLowerCase().includes(nombreLower) : true;
+      const matchesCedula = cedula ? estudiante.cedula_estudiante.toLowerCase().includes(cedulaLower) : true;
+      return matchesNombre && matchesCedula;
+    });
   }
 
 }

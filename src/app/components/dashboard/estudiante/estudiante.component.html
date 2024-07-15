@@ -10,12 +10,13 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-lg-1 col-md-2">
-          <label for="buscador" class="form-label">Nombre: </label>
+        <div class="col-lg-6 col-md-6">
+          <label for="buscadorNombre" class="form-label">Nombre:</label>
+          <input id="buscadorNombre" type="text" class="form-control" [(ngModel)]="nombre" placeholder="Buscar por nombre del estudiante" />
         </div>
-        <div class="col-lg-11 col-md-10">
-          <input id="buscador" type="text" class="form-control" [(ngModel)]="nombre"
-            placeholder="Buscar por nombre del estudiante" />
+        <div class="col-lg-6 col-md-6">
+          <label for="buscadorCedula" class="form-label">Cédula:</label>
+          <input id="buscadorCedula" type="text" class="form-control" [(ngModel)]="cedula" placeholder="Buscar por cédula del estudiante" (keypress)="isNumberKey($event)" />
         </div>
       </div>
     </div>
@@ -39,7 +40,7 @@
                 </tr>
               </thead>
               <tbody>
-                @for(estudiante of estudiante | buscadorEstudiante : nombre | paginate: { itemsPerPage: 10,
+                @for(estudiante of estudiante | buscadorEstudiante : nombre: cedula | paginate: { itemsPerPage: 10,
                 currentPage: page }; track $index){
                 <tr>
                   <td style="width: 19%;">{{ estudiante.nombre_estudiante }}</td>

@@ -1,7 +1,10 @@
+ 
 import { Estudiante, UpdateEstudiante, ViewEstudiante } from './estudiante';
 import { ViewHorario } from './horario';
 import { NuevaMateria, ViewMateria } from './materia';
 import { NuevoUsuario, Profesor, UpdateUsuario } from './nuevo-usuario';
+import { NuevoTurno, ViewTurno } from './turno';
+
 export class Matricula {
   id_matricula?: number = 0;
   fecha: string = '';
@@ -9,14 +12,16 @@ export class Matricula {
   fechaFinal: string = '';
   id_estudiante: number = 0;
   id_usuario: number = 0;
-  id_materias: number [] =[];
+  id_materia: number = 0;
+  id_turno: number = 0;
+  programacion: Programacion = new Programacion();
+  
   // 4para los horarios
   horario: string = '';
   // 4###############
-  programacion: Programacion = new Programacion();
-  materia: ViewMateria = new ViewMateria();
-  //1 traer las materias
-  materias: Materias = new Materias();
+  //1 traer las materias y turnos
+  // materias: Materias = new Materias();
+
   // 1#################
 }
 export class Programacion {
@@ -25,7 +30,7 @@ export class Programacion {
 
 //1 traer las materias
 export class Materias{
-  materias_id: number[] = [];
+  materia_id: number[] = [];
 }
 // 1#################
 export class MatriculaList {
@@ -37,6 +42,7 @@ export class MatriculaList {
   alumno: Estudiante = new Estudiante();
   profesor: NuevoUsuario = new NuevoUsuario();
   materia: NuevaMateria = new NuevaMateria();
+  turno: NuevoTurno = new NuevoTurno();
   programacion:  Programacion = new Programacion();
 }
 
@@ -50,6 +56,7 @@ export class MatriculaView {
   alumno: ViewEstudiante = new ViewEstudiante();
   profesor: Profesor = new Profesor();
   materia: ViewMateria = new ViewMateria();
+  turno: ViewTurno = new ViewTurno();
   programacion: ProgramacionList = new ProgramacionList();
 }
 
@@ -68,6 +75,7 @@ export class MatriculaUpdate {
   alumno!: UpdateEstudiante;
   profesor!: UpdateUsuario;
   materia!: NuevaMateria;
+  turno!: NuevoTurno;
   programacion: Programacion = new Programacion();
-
 }
+

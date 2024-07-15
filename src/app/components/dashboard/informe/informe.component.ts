@@ -12,17 +12,19 @@ import { NuevoUsuario } from '../../../models/nuevo-usuario';
 import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { InformeModel } from '../../../models/informe';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-informe',
   standalone: true,
-  imports: [FormsModule, BuscadorInformePipe, RouterModule, NgxPaginationModule],
+  imports: [CommonModule,FormsModule, BuscadorInformePipe, RouterModule, NgxPaginationModule],
   templateUrl: './informe.component.html',
-  styleUrl: './informe.component.css'
+  styleUrls: ['./informe.component.css']
 })
 export class InformeComponent implements OnInit {
 
   nombre = '';
+  fecha: string = '';  // Nueva propiedad para la fecha
   isAdmin: boolean = true;
   public page!: number;
 
@@ -33,7 +35,7 @@ export class InformeComponent implements OnInit {
   constructor(
     private informeService: InformeService,
     private usuarioService: AuthService,
-    private toaster:ToastrService,
+    private toaster: ToastrService,
     private tokenService: TokenService
   ) { }
 
@@ -85,8 +87,6 @@ export class InformeComponent implements OnInit {
     });
   }
 
-
-
   borrarInforme(id_informe: number): void {
     Swal.fire({
       title: "¿Estás seguro?",
@@ -121,5 +121,4 @@ export class InformeComponent implements OnInit {
       }
     });
   }
-
 }

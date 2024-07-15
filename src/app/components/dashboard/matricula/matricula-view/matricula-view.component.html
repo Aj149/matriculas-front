@@ -1,465 +1,425 @@
-<div class="container mt-5">
-    <div #content>
-      <h1 class="form-title text-center">Matricula N° {{matricula.id_matricula}}</h1>
-      @if (matricula) {
-      <form id="matricula">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="mb-3">
-              <label for="fecha" class="form-label">Fecha</label>
-              <div class="input-group">
-                <p class="form-control" id="fecha">{{ matricula.fecha }}</p>
-              </div>
-            </div>
-          </div>
-  
-          <div class="col-md-6">
-            <div class="mb-3">
-              <label for="estudiante" class="form-label">Estudiante</label>
-              <div class="input-group">
-                <p class="form-control" id="estudiante">{{ matricula.alumno.nombre_estudiante}}</p>
-              </div>
-            </div>
-          </div>
-  
-          <div class="col-md-6">
-            <div class="mb-3">
-              <label for="fecha" class="form-label">Fecha de Inicio</label>
-              <div class="input-group">
-                <p class="form-control" id="fecha">{{ matricula.fechaInicio }}</p>
-              </div>
-            </div>
-          </div>
-  
-          <div class="col-md-6">
-            <div class="mb-3">
-              <label for="instructor" class="form-label">Docente</label>
-              <div class="input-group">
-                <p class="form-control" id="instructor">{{ matricula.profesor.nombres_usuario }}</p>
-              </div>
-            </div>
-          </div>
-  
-          <div class="col-md-6">
-            <div class="mb-3">
-              <label for="fecha" class="form-label">Fecha Final</label>
-              <div class="input-group">
-                <p class="form-control" id="fecha">{{ matricula.fechaFinal }}</p>
-              </div>
-            </div>
-          </div>
-          
-          <div class="col-md-6">
-            <div class="mb-3">
-              <label for="horario" class="form-label">Horario</label>
-              <div class="input-group">
-                <p class="form-control" id="horario">{{ matricula.horario }}</p>
-              </div>
-            </div>
-          </div>
-  
-          <div class="col-md-6">
-            <div class="mb-3">
-              <label for="instructor" class="form-label">Materia</label>
-              <div class="input-group">
-                <p class="form-control" id="instructor">{{ matricula.materia.nombre }}</p>
-              </div>
-            </div>
-          </div>
-        
-  
-        <h5>Horarios</h5>
-          @for (horario of matricula.programacion.horario; track $index) {
-          <div class="col-md-6">
-            <p class="form-control" id="fecha">
-              {{horario.dia}} - {{ horario.horaInicio}} - {{horario.horaSalida}} - {{ horario.modalidad }} - ${{horario.precio}}
-              @if (horario.modalidad == 'presencial') {
-                - {{horario.aula?.nombreAula}} - ${{horario.precio}}
-              }
-            </p>
-  
-          </div>
-          }
-        </div>
-        
-  
-  
-      </form>
-      }
-    </div>
-    <div class="text-center mt-3">
-      <button class="btn-danger border-0 mt-4 rounded-pill mb-1 text-white w-100 p-2" style="background-color: #25d366"
-        type="button" (click)="downloadPDF1()">
-        <h5>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
-            <path d="M5.523 12.424q.21-.124.459-.238a8 8 0 0 1-.45.606c-.28.337-.498.516-.635.572l-.035.012a.3.3 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548m2.455-1.647q-.178.037-.356.078a21 21 0 0 0 .5-1.05 12 12 0 0 0 .51.858q-.326.048-.654.114m2.525.939a4 4 0 0 1-.435-.41q.344.007.612.054c.317.057.466.147.518.209a.1.1 0 0 1 .026.064.44.44 0 0 1-.06.2.3.3 0 0 1-.094.124.1.1 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256M8.278 6.97c-.04.244-.108.524-.2.829a5 5 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.5.5 0 0 1 .145-.04c.013.03.028.092.032.198q.008.183-.038.465z"/>
-            <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.7 11.7 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.86.86 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.84.84 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.8 5.8 0 0 0-1.335-.05 11 11 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.24 1.24 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a20 20 0 0 1-1.062 2.227 7.7 7.7 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103"/>
-          </svg>
-          Imprimir en PDF
-        </h5>
-      </button>
-      <button class="btn btn-danger border-0 mt-4 mb-4 rounded-pill mb-1 text-white w-100 p-2" (click)="volver()">
-        <h5>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-            class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
-            <path
-              d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
-          </svg>
-          Volver
-        </h5>
-      </button>
-    </div>
+<div #content class="container">
+  <div class="text-center my-4">
+      <img src="https://firebasestorage.googleapis.com/v0/b/parte-2-b252a.appspot.com/o/Globales%2Flogo%20negroL-ACT%20JPG.jpg?alt=media&token=2e20a40a-9699-4629-b870-2564d6465ff0"
+          alt="IEC Logo" style="max-width: 150px;" class="img-fluid">
+      <h2>INSTITUTO DE ENSEÑANZA CONTINUA</h2>
+      <p>Nivelación - Asesoría y Preparación Académica</p>
+  </div>
+
+  <div class="table-responsive">
+      <table class="table table-bordered">
+          <thead>
+              <tr>
+                  <th colspan="3" class="text-center" id="estudiante">Nombre:<br>
+                      {{matricula.alumno.nombre_estudiante}}</th>
+                  <th colspan="5" class="text-center" id="materia">Materias: {{matricula.materia.nombre}}</th>
+                  <th colspan="2" class="text-center">Total Horas: 10</th>
+                  <th colspan="2" class="text-center" id="modalidad">Modalidad: {{horario.modalidad}}</th>
+                  <th colspan="3" class="text-center">Horario: {{horario.aula}}</th>
+              </tr>
+              <tr>
+                  <th colspan="8" class="text-center" id="horaInicio">Fecha de inicio: {{matricula.fechaInicio}}</th>
+                  <th colspan="7" class="text-center" id="horaFinal">Fecha de finalización: {{matricula.fechaFinal}}</th>
+              </tr>
+              <tr>
+                  <td colspan="20" class="text-center fw-bold bg-info text-white">
+                  INFORMACION PLANIFICADA ESTUDIANTE
+                  </td>
+              </tr>
+              <tr>
+                  <th colspan="1" class="text-center" id="dia">Día: {{horario.dia}}</th>
+                  <th colspan="1" class="text-center" id="fecha">Fecha:<br>{{matricula.fecha}}</th>
+                  <th colspan="1" class="text-center mt-0">Horas Diarias</th>
+                  <th colspan="3" class="text-center" id="horario">Horario Diario: {{horario.horaInicio }} - {{ horario.horaSalida }}</th>
+                  <th colspan="4" class="text-center" id="materia">Materias/Horas: {{matricula.materia.nombre}}</th>
+                  <th colspan="1" class="text-center" style="width: 20%;">Total Materias</th>
+                  <th colspan="4" class="text-center">Observaciones</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td colspan="6" style="width: 50px;"  class="text-center fw-bold bg-info text-white">Semana 1</td>
+                  <td colspan="1" style="width: 7%;  --bs-bg-opacity: .4;" class="text-center fw-bold bg-success text-black"> {{ matricula.materia.abreviatura }} </td> 
+                  <td colspan="1" style="width: 7%;  --bs-bg-opacity: .4;" class="text-center fw-bold bg-danger text-black"> {{ matricula.materia.abreviatura }}</td>
+                  <td colspan="1" style="width: 7%; --bs-bg-opacity: .4;"  class="text-center fw-bold bg-primary text-black"> {{ matricula.materia.abreviatura }}</td>
+                  <td colspan="1" style="width: 7%;  --bs-bg-opacity: .4;" class="text-center fw-bold bg-secondary text-black"> {{ matricula.materia.abreviatura }}</td>
+                  <th colspan="1" class="text-center" style="width: 8%;"></th>
+                  <th colspan="4" class="text-center" style="width: 20%;"></th>
+                
+              </tr>
+             
+              <tr>
+                  <td>Lunes</td>
+                  <td>24/6/2024</td>
+                  <td>0</td>
+                  <td colspan="3"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+              </tr>
+              <tr>
+                  <td>Martes</td>
+                  <td>25/6/2024</td>
+                  <td>0</td>
+                  <td colspan="3"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+                 
+              </tr>
+              <tr>
+                  <td>Miércoles</td>
+                  <td>26/6/2024</td>
+                  <td>2</td>
+                  <td colspan="3" class="text-center">10:00 - 12:00</td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+                  
+              </tr>
+              <tr>
+                  <td>Jueves</td>
+                  <td>27/6/2024</td>
+                  <td>2</td>
+                  <td colspan="3" class="text-center">11:00 - 13:00</td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+                  
+              </tr>
+              <tr>
+                  <td>Viernes</td>
+                  <td>28/6/2024</td>
+                  <td>2</td>
+                  <td colspan="3" class="text-center">11:00 - 13:00</td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+              </tr>
+              <tr>
+                  <td>Sábado</td>
+                  <td>29/6/2024</td>
+                  <td>2</td>
+                  <td colspan="3" class="text-center">8:00 - 10:00</td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+                
+              </tr>
+              <tr>
+                  <td>Domingo</td>
+                  <td>30/6/2024</td>
+                  <td>0</td>
+                  <td colspan="3"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+                
+              </tr>
+              <tr>
+                  <td colspan="2" class="text-center fw-bold text-black">Total Sem1=</td>
+                  <td class="text-center fw-bold bg-warning text-black">8</td>
+                  <td colspan="3"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+              </tr>
+              <tr>
+                  <td colspan="6" style="width: 50px;"  class="text-center fw-bold bg-info text-white">Semana 2</td>
+                  <td colspan="1" style="width: 7%;"></td> 
+                  <td colspan="1" style="width: 7%;"></td>
+                  <td colspan="1" style="width: 7%;"></td>
+                  <td colspan="1" style="width: 7%;"></td>
+                  <th colspan="1" class="text-center" style="width: 8%;"></th>
+                  <th colspan="4" class="text-center" style="width: 20%;"></th>
+                
+              </tr>
+              <tr>
+                  <td>Lunes</td>
+                  <td>1/7/2024</td>
+                  <td>2</td>
+                  <td colspan="3" class="text-center">10:00 - 12:00</td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+                 
+              </tr>
+              <tr>
+                  <td>Martes</td>
+                  <td>2/7/2024</td>
+                  <td>0</td>
+                  <td colspan="3"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+                
+              </tr>
+              <tr>
+                  <td>Miércoles</td>
+                  <td>3/7/2024</td>
+                  <td>0</td>
+                  <td colspan="3"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+                
+              </tr>
+              <tr>
+                  <td>Jueves</td>
+                  <td>4/7/2024</td>
+                  <td>0</td>
+                  <td colspan="3"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+              
+              </tr>
+              <tr>
+                  <td>Viernes</td>
+                  <td>5/7/2024</td>
+                  <td>0</td>
+                  <td colspan="3"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+                 
+              </tr>
+              <tr>
+                  <td>Sábado</td>
+                  <td>6/7/2024</td>
+                  <td>0</td>
+                  <td colspan="3"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+                 
+              </tr>
+              <tr>
+                  <td>Domingo</td>
+                  <td>7/7/2024</td>
+                  <td>0</td>
+                  <td colspan="3"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+                  
+              </tr>
+              <tr>
+                  <td colspan="2" class="text-center fw-bold text-black">Total Sem2=</td>
+                  <td class="text-center fw-bold bg-warning text-black">2</td>
+                  <td colspan="3"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+              </tr>
+              <tr>
+                  <td colspan="2" class="text-center fw-bold bg-warning text-black">Total=</td>
+                  <td class="text-center fw-bold bg-info text-black">10,00</td>
+                  <td colspan="3"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="1"></td>
+                  <td colspan="4"></td>
+                  
+              </tr>
+          </tbody>
+      </table>
+  </div>
+
+  <div class="row my-4">
+      <div class="col-md-6 mb-3">
+          <table class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th colspan="2" class="text-center">JUNIO 2024</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>Total horas</td>
+                      <td>$ 87,50</td>
+                  </tr>
+                  <tr>
+                      <td>Materiales</td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>IVA</td>
+                      <td>Sin Facturación electrónica</td>
+                  </tr>
+                  <tr>
+                      <td>TOTAL</td>
+                      <td class="fw-bold bg-warning text-black">$87,50</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+      <div class="col-md-6">
+          <table class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th colspan="4" class="text-center">RESUMEN</th>
+                  </tr>
+                  <tr>
+                      <th class="text-center">Abrev</th>
+                      <th class="text-center">Horas</th>
+                      <th class="text-center">Valor</th>
+                      <th class="text-center">Materia</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>{{ matricula.materia.abreviatura }} </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>{{ matricula.materia.abreviatura}}</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>{{ matricula.materia.abreviatura }}</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+
+  <div class="row my-4">
+      <div class="col-md-12">
+          <table class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th class="text-center">Detalle</th>
+                      <th class="text-center">Cantidad</th>
+                      <th class="text-center">Estado</th>
+                      <th class="text-center">Observaciones</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>25/06/2024</td>
+                      <td>$40,00</td>
+                      <td>PENDIENTE</td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>29/06/2024</td>
+                      <td>$30,00</td>
+                      <td>PENDIENTE</td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>01/07/2024</td>
+                      <td>$17,50</td>
+                      <td>PENDIENTE</td>
+                      <td></td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
   </div>
 
 
-  <div class="container mt-5"> 
-    <div #content>
-    @if(matricula){
-<div class="container">
-    <div class="text-center my-4">
-        <img src="https://firebasestorage.googleapis.com/v0/b/parte-2-b252a.appspot.com/o/Globales%2Flogo%20negroL-ACT%20JPG.jpg?alt=media&token=2e20a40a-9699-4629-b870-2564d6465ff0"
-            alt="IEC Logo" style="max-width: 150px;" class="img-fluid">
-        <h2>INSTITUTO DE ENSEÑANZA CONTINUA</h2>
-        <p>Nivelación - Asesoría y Preparación Académica</p>
-    </div>
-
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th colspan="2" class="text-center" id="estudiante">Nombre:<br>
-                        {{matricula.alumno.nombre_estudiante}}</th>
-                    <th colspan="3" class="text-center" id="materia">Materias: {{matricula.materia.nombre}}</th>
-                    <th colspan="2" class="text-center">Total Horas: 10</th>
-                    <th colspan="1" class="text-center" id="modalidad">Modalidad: {{horario.modalidad}}</th>
-                    <th colspan="3" class="text-center">Horario: {{horario.aula}}</th>
-                </tr>
-                <tr>
-                    <th colspan="5" class="text-center" id="horaInicio">Fecha de inicio: {{matricula.fechaFinal}}</th>
-                    <th colspan="5" class="text-center" id="horaFinal">Fecha de finalización: {{matricula.fechaFinal}}</th>
-                </tr>
-                <tr>
-                    <th colspan="1" class="text-center" id="dia">Día: {{horario.dia}}</th>
-                    <th  colspan="1" class="text-center" id="fecha">Fecha: {{matricula.fecha}}</th>
-                    <th  colspan="1" class="text-center">Horas Diarias</th>
-                    <th  colspan="1" class="text-center" id="horario">Horario Diario: {{horario.horaInicio }} - {{ horario.horaSalida }}</th>
-                    <th  colspan="1" class="text-center" id="materia">Materias/Horas: {{matricula.materia.nombre}}</th>
-                    <th  colspan="3" class="text-center">Total Materias</th>
-                    <th colspan="2" class="text-center">Observaciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="3" class="text-center fw-bold bg-info text-white">Semana 1</td>
-                    <td colspan="1"></td>
-                    <td colspan="1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td>Lunes</td>
-                    <td>24/6/2024</td>
-                    <td>0</td>
-                    <td colspan="1"></td>
-                    <td colspan="1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td>Martes</td>
-                    <td>25/6/2024</td>
-                    <td>0</td>
-                    <td colspan="1"></td>
-                    <td colspan="1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td>Miércoles</td>
-                    <td>26/6/2024</td>
-                    <td>2</td>
-                    <td  colspan="1" class="text-center">10:00 - 12:00</td>
-                    <td colspan="1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td>Jueves</td>
-                    <td>27/6/2024</td>
-                    <td>2</td>
-                    <td colspan="1" class="text-center">11:00 - 13:00</td>
-                    <td colspan="1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td>Viernes</td>
-                    <td>28/6/2024</td>
-                    <td>2</td>
-                    <td colspan="1" class="text-center">11:00 - 13:00</td>
-                    <td colspan="1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td>Sábado</td>
-                    <td>29/6/2024</td>
-                    <td>2</td>
-                    <td colspan="1" class="text-center">8:00 - 10:00</td>
-                    <td colspan="1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td>Domingo</td>
-                    <td>30/6/2024</td>
-                    <td>0</td>
-                    <td colspan="1"></td>
-                    <td colspan="1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr class="table-danger">
-                    <td colspan="2">Total Sem1=</td>
-                    <td>8</td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td colspan="3" class="text-center fw-bold bg-info text-white">Semana 2</td>
-                </tr>
-                <tr>
-                    <td>Lunes</td>
-                    <td>1/7/2024</td>
-                    <td>2</td>
-                    <td colspan="1" class="text-center">10:00 - 12:00</td>
-                    <td colspan="1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td>Martes</td>
-                    <td>2/7/2024</td>
-                    <td>0</td>
-                    <td colspan="1"></td>
-                    <td colspan="1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td>Miércoles</td>
-                    <td>3/7/2024</td>
-                    <td>0</td>
-                    <td colspan="1"></td>
-                    <td colspan="1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td>Jueves</td>
-                    <td>4/7/2024</td>
-                    <td>0</td>
-                    <td colspan="1"></td>
-                    <td colspan="1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td>Viernes</td>
-                    <td>5/7/2024</td>
-                    <td>0</td>
-                    <td colspan="1"></td>
-                    <td colspan="1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td>Sábado</td>
-                    <td>6/7/2024</td>
-                    <td>0</td>
-                    <td colspan="1"></td>
-                    <td colspan="1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td>Domingo</td>
-                    <td>7/7/2024</td>
-                    <td>0</td>
-                    <td colspan="1"></td>
-                    <td colspan="1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr class="table-danger">
-                    <td colspan="2">Total Sem2=</td>
-                    <td>2</td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr class="table-danger">
-                    <td colspan="2">TOTAL=</td>
-                    <td>10,0</td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="3"></td>
-                    <td colspan="1"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="row my-4">
-        <div class="col-md-6 mb-3">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th colspan="2" class="text-center">JUNIO 2024</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Total horas</td>
-                        <td>$ 87,50</td>
-                    </tr>
-                    <tr>
-                        <td>Materiales</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>IVA</td>
-                        <td>Sin Facturación electrónica</td>
-                    </tr>
-                    <tr class="table-danger">
-                        <td>TOTAL</td>
-                        <td>$ 87,50</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-6">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th colspan="4" class="text-center">RESUMEN</th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">Abrev</th>
-                        <th class="text-center">Horas</th>
-                        <th class="text-center">Valor</th>
-                        <th class="text-center">Materia</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="row my-4">
-        <div class="col-md-12">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th class="text-center">Detalle</th>
-                        <th class="text-center">Cantidad</th>
-                        <th class="text-center">Estado</th>
-                        <th class="text-center">Observaciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>25/06/2024</td>
-                        <td>$40,00</td>
-                        <td>PENDIENTE</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>29/06/2024</td>
-                        <td>$30,00</td>
-                        <td>PENDIENTE</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>01/07/2024</td>
-                        <td>$17,50</td>
-                        <td>PENDIENTE</td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-}
 <div class="container" style="max-width: 83%;">
-    <div class="row border border-dark p-4 mb-4 ">
-        <div class="col-md-6 mb-5 text-center">
-            <p class="fw-bold">Instituto de Enseñanza Continua</p>
-            <br>
-            <br>
-            <br>
-            <br>
-            <hr class="w-50 border-2 border-top  mx-auto border-dark">
-        </div>
-        <div class="col-md-6  text-center">
-            <p class="fw-bold">SR. HENRY BASURTO</p>
-            <br>
-            <br>
-            <br>
-            <br>
-            <hr class="w-50 border-2 border-top  mx-auto border-dark">
-            <p>REPRESENTANTE</p>
-            <p>CI:</p>
-        </div>
-    </div>
+  <div class="row border border-dark p-4 mb-4">
+      <div class="col-md-6 mb-5 text-center">
+          <p class="fw-bold">Instituto de Enseñanza Continua</p>
+          <br>
+          <br>
+          <br>
+          <br>
+          <hr class="w-50 border-2 border-top mx-auto border-dark">
+      </div>
+      <div class="col-md-6 text-center">
+          <p class="fw-bold">SR. HENRY BASURTO</p>
+          <br>
+          <br>
+          <br>
+          <br>
+          <hr class="w-50 border-2 border-top mx-auto border-dark">
+          <p>REPRESENTANTE</p>
+          <p>CI:</p>
+      </div>
+  </div>
 </div>
-
 
 <div class="text-center mt-3">
-  <button class="btn-danger border-0 mt-4 rounded-pill mb-1 text-white w-100 p-2" style="background-color: #25d366"
-    type="button" (click)="downloadPDF1()">
-    <h5>
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
-        <path d="M5.523 12.424q.21-.124.459-.238a8 8 0 0 1-.45.606c-.28.337-.498.516-.635.572l-.035.012a.3.3 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548m2.455-1.647q-.178.037-.356.078a21 21 0 0 0 .5-1.05 12 12 0 0 0 .51.858q-.326.048-.654.114m2.525.939a4 4 0 0 1-.435-.41q.344.007.612.054c.317.057.466.147.518.209a.1.1 0 0 1 .026.064.44.44 0 0 1-.06.2.3.3 0 0 1-.094.124.1.1 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256M8.278 6.97c-.04.244-.108.524-.2.829a5 5 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.5.5 0 0 1 .145-.04c.013.03.028.092.032.198q.008.183-.038.465z"/>
-        <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.7 11.7 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.86.86 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.84.84 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.8 5.8 0 0 0-1.335-.05 11 11 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.24 1.24 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a20 20 0 0 1-1.062 2.227 7.7 7.7 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103"/>
-      </svg>
-      Imprimir en PDF
-    </h5>
-  </button>
-  <button class="btn btn-danger border-0 mt-4 mb-4 rounded-pill mb-1 text-white w-100 p-2" (click)="volver()">
-    <h5>
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-        class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
-        <path
-          d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
-      </svg>
-      Volver
-    </h5>
-  </button>
+<button class="btn-danger border-0 mt-4 rounded-pill mb-1 text-white w-100 p-2" style="background-color: #25d366"
+  type="button" (click)="downloadPDF1()">
+  <h5>
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
+      <path d="M5.523 12.424q.21-.124.459-.238a8 8 0 0 1-.45.606c-.28.337-.498.516-.635.572l-.035.012a.3.3 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548m2.455-1.647q-.178.037-.356.078a21 21 0 0 0 .5-1.05 12 12 0 0 0 .51.858q-.326.048-.654.114m2.525.939a4 4 0 0 1-.435-.41q.344.007.612.054c.317.057.466.147.518.209a.1.1 0 0 1 .026.064.44.44 0 0 1-.06.2.3.3 0 0 1-.094.124.1.1 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256M8.278 6.97c-.04.244-.108.524-.2.829a5 5 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.5.5 0 0 1 .145-.04c.013.03.028.092.032.198q.008.183-.038.465z"/>
+      <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.7 11.7 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.86.86 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.84.84 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.8 5.8 0 0 0-1.335-.05 11 11 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.24 1.24 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a20 20 0 0 1-1.062 2.227 7.7 7.7 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103"/>
+    </svg>
+    Imprimir en PDF
+  </h5>
+</button>
+<button class="btn btn-danger border-0 mt-4 mb-4 rounded-pill mb-1 text-white w-100 p-2" (click)="volver()">
+  <h5>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+      class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+      <path
+        d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+    </svg>
+    Volver
+  </h5>
+</button>
 </div>
-
 </div>
-  </div>

@@ -14,6 +14,8 @@ import { EstudianteService } from '../../../../services/estudiante.service';
 import { HorarioService } from '../../../../services/horario.service';
 import { MateriaService } from '../../../../services/materia.service';
 import { FilterByModalidadPipe } from '../../../../pipes/modalidad_matricula.pipe';
+import { NuevoTurno } from '../../../../models/turno';
+import { TurnoService } from '../../../../services/turno.service';
 
 @Component({
   selector: 'app-matricula-edit',
@@ -43,11 +45,13 @@ export class MatriculaEditComponent {
       nombre: '',
     },
     programacion: new Programacion(),
+    turno: new NuevoTurno
   };
   
   usuarios: NuevoUsuario[] = [];
   estudiantes: Estudiante[] = [];
   materias: NuevaMateria[] = [];
+  turnos: NuevoTurno[] = [];
   horarios: Horario[] = [];
   selectedHorarios: number[] = [];
 
@@ -60,6 +64,7 @@ export class MatriculaEditComponent {
     private matriculaService: MatriculaService,
     private estudianteService: EstudianteService,
     private materiaService: MateriaService,
+    private turnoService: TurnoService,
     private horarioService: HorarioService,
     private usuarioService: AuthService,
     private activatedRoute: ActivatedRoute,
@@ -89,6 +94,7 @@ export class MatriculaEditComponent {
     this.cargarUsuarios();
     this.cargarEstudiantes();
     this.cargarMaterias();
+    this.cargarTurnos();
     this.cargarHorarios();
     this.cargarHorariosByMatricula();
   }
@@ -155,6 +161,18 @@ esAdministrador(usuario: NuevoUsuario): boolean {
         this.listaVacia = 'No tienes materias';
       }
     );
+  }
+
+  cargarTurnos(){
+    this.turnoService.lista().subscribe(
+      (data: NuevoTurno[]) => {
+        this.turnos = data;
+        this.listaVacia = undefined;
+      },
+      (error:any) => {
+        this.listaVacia = 'No tienes turnos'
+      }
+    )
   }
 
   cargarHorarios() {

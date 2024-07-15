@@ -7,13 +7,15 @@ import { EstudianteService } from '../../../../services/estudiante.service';
 import { AuthService } from '../../../../services/auth.service';
 import { MateriaService } from '../../../../services/materia.service';
 import { NuevaMateria, ViewMateria } from '../../../../models/materia';
-import { CreateHorario, Horario } from '../../../../models/horario';
+import { Horario } from '../../../../models/horario';
 import { HorarioService } from '../../../../services/horario.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FilterByModalidadPipe } from '../../../../pipes/modalidad_matricula.pipe';
 import { TokenService } from '../../../../services/token.service';
+import { TurnoService } from '../../../../services/turno.service';
+import { NuevoTurno } from '../../../../models/turno';
 
 @Component({
   selector: 'app-matricula-new',
@@ -27,11 +29,15 @@ export class MatriculaNewComponent {
   usuarios: NuevoUsuario[] = [];
   estudiantes: Estudiante[] = [];
   materias: NuevaMateria[] = [];
+  turnos: NuevoTurno[] = [];
   horarios: Horario[] = [];
   selectedHorarios: number[] = [];
+  
+  // 1modificar para sumar horas 
   totalPrecio: number = 0; 
-  //1 traer materias
-selectedMateria: number[] = [];
+  
+  //1 traer materias y aulas
+  // selectedMateria: number[] = [];
 //1################
   listaVacia: string | undefined;
   // isAdmin: boolean = true;
@@ -44,6 +50,7 @@ selectedMateria: number[] = [];
     private estudianteService: EstudianteService,
     private materiaService: MateriaService,
     private horarioService: HorarioService,
+    private turnoService: TurnoService,
     private usuarioService: AuthService,
     private token: TokenService,
     private toastr: ToastrService,
@@ -57,6 +64,7 @@ selectedMateria: number[] = [];
     this.cargarMaterias();
     this.cargarHorarios();
     this.calcularTotal();
+    this.cargarTurnos();
     // Obtener la fecha actual en el formato YYYY-MM-DD
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -160,6 +168,18 @@ selectedMateria: number[] = [];
     );
   }
 
+  cargarTurnos() {
+    this.turnoService.lista().subscribe(
+      (data: NuevoTurno[]) => {
+        this.turnos = data;
+        this.listaVacia = undefined;
+      },
+      (error: any) => {
+        this.listaVacia = 'No tienesTurnos';
+      }
+    )
+  }
+
   cargarHorarios() {
     if (this.selectedModalidad === '') {
       this.horarioService.lista().subscribe(
@@ -187,32 +207,32 @@ selectedMateria: number[] = [];
   }
 
 //1 para calcular el total
-getHorarioPrecio(id: number): number {
-  const horario = this.getHorario(id);
-  return horario ? horario.precio : 0;
-}
-
-removePrecio(horarioId: number): void {
-  const index = this.selectedHorarios.indexOf(horarioId);
-  if (index !== -1) {
-    this.selectedHorarios.splice(index, 1);
-    
-    this.calcularTotal(); // Recalcula el total al remover un horario
+  getHorarioPrecio(id: number): number {
+    const horario = this.getHorario(id);
+    return horario ? horario.precio : 0;
   }
-}
 
-addPrecio(horarioId: number): void {
-  this.selectedHorarios.push(horarioId);
-  this.calcularTotal(); // Llama a calcularTotal() después de agregar un horario
-}
+  removePrecio(horarioId: number): void {
+    const index = this.selectedHorarios.indexOf(horarioId);
+    if (index !== -1) {
+      this.selectedHorarios.splice(index, 1);
 
-calcularTotal(): void {
-  this.totalPrecio = 0;
-  this.selectedHorarios.forEach(id => {
-    this.totalPrecio += this.getHorarioPrecio(id);
-  });
-}
-//1 ###################################
+      this.calcularTotal(); // Recalcula el total al remover un horario
+    }
+  }
+
+  addPrecio(horarioId: number): void {
+    this.selectedHorarios.push(horarioId);
+    this.calcularTotal(); // Llama a calcularTotal() después de agregar un horario
+  }
+
+  calcularTotal(): void {
+    this.totalPrecio = 0;
+    this.selectedHorarios.forEach(id => {
+      this.totalPrecio += this.getHorarioPrecio(id);
+    });
+  }
+  //1 ###################################
 
 
   removeHorarioFromMatricula(horarioId: number) {
@@ -237,36 +257,39 @@ calcularTotal(): void {
         this.matricula.programacion.horario_id.push(horarioId);
       }
     }
+    // console.log('horarios seleccionadas:', this.matricula.id_horario); 
   }
  
   //1 traer las materias
   
-  onMateriaChange() {
-    if (!this.matricula.materias) {
-      this.matricula.materias = new Materias();
-      this.matricula.id_materias = [];
-    }
-    for (let materiasId of this.selectedMateria) {
-      if (!this.matricula.id_materias.includes(materiasId)) {
-        this.matricula.id_materias.push(materiasId);
-      }
-    }
-    console.log('Materias seleccionadas:', this.matricula.id_materias); // Verificar los IDs de materias seleccionadas
-  }
+  // onMateriaChange() {
+  //   if (!this.matricula.materias) {
+  //     this.matricula.materias = new Materias();
+  //     this.matricula.materias.materia_id = [];
+  //   }
+  //   for (let materiasId of this.selectedMateria) {
+  //     if (!this.matricula.materias.materia_id.includes(materiasId)) {
+  //       this.matricula.materias.materia_id.push(materiasId);
+  //     }
+  //   }
+  //   // console.log('Materias seleccionadas:', this.matricula.id_materias); // Verificar los IDs de materias seleccionadas
+  // }
   
 
-  removeMateria(materiasId: number) {
-    const index = this.matricula.id_materias.indexOf(materiasId);
-    if (index !== -1) {
-      this.matricula.id_materias.splice(index, 1);
-    }
-  }
+  // removeMateria(materiasId: number) {
+  //   const index = this.matricula.materias.materia_id.indexOf(materiasId);
+  //   if (index !== -1) {
+  //     this.matricula.materias.materia_id.splice(index, 1);
+  //   }
+  // }
 
-  getMateria(id: number) {
-    return this.materias.find((h) => h.id_materia === id);
-  }
+  // getMateria(id: number) {
+  //   return this.materias.find((h) => h.id_materia === id);
+  // }
 
   //1 ##################################
+
+  
 }
 
 
